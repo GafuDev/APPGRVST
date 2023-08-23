@@ -21,18 +21,36 @@ const usuarioController = {
     }
   },
 
-  editarUsuario: async (req, res) => {
+  obtenerPorID: async (req, res) => {
     const id = req.params.id;
-    const updatedUser = req.body;
+
     try {
-      await Usuario.update(id, updatedUser);
-      res.json({ message: 'Usuario actualizado' });
+      const usuario = await Usuario.getById(id);
+
+      if (usuario) {
+        res.json(usuario);
+      } else {
+        res.status(404).json({ error: 'Usuario no encontrado' });
+      }
     } catch (error) {
-      console.error(error); 
-      res.status(500).json({ error: 'Error al actualizar usuario' });
+      console.error(error);
+      res.status(500).json({ error: 'Error al obtener usuario por ID' });
     }
   },
 
+  editarUsuario: async (req, res) => {
+    const idUsuario = req.params.idUsuario; 
+    const userData = req.body;
+
+    try {
+      const result = await Usuario.update(idUsuario, userData);
+      res.status(200).json({ message: 'Usuario actualizado correctamente' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al actualizar el usuario' });
+    }
+  },
+  
   eliminarUsuario: async (req, res) => {
     const id = req.params.id;
     try {

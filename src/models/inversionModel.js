@@ -1,9 +1,9 @@
 const db = require('../../db');
 
-class Usuario {
+class Inversion {
   static getAll() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM usuario', (error, results) => {
+      db.query('SELECT * FROM inversion', (error, results) => {
         if (error) {
           reject(error);
         } else {
@@ -13,9 +13,9 @@ class Usuario {
     });
   }
 
-  static create(newUser) {
+  static create(newInversion) {
     return new Promise((resolve, reject) => {
-      db.query('INSERT INTO usuario SET ?', newUser, (error, result) => {
+      db.query('INSERT INTO inversion SET ?', newInversion, (error, result) => {
         if (error) {
           reject(error);
         } else {
@@ -27,7 +27,7 @@ class Usuario {
 
   static getById(id) {
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT * FROM Usuario WHERE idUsuario = ?';
+      const sql = 'SELECT * FROM Inversion WHERE idInversion = ?';
       db.query(sql, [id], (error, result) => {
         if (error) {
           reject(error);
@@ -42,34 +42,34 @@ class Usuario {
     });
   }
 
-  static async update(idUsuario, userData) {
+  static async update(idInversion, inversionData) {
     try {
-      const { nombre, apellido, contrasena, direccion, idComuna, idRegion, idRol, telefono } = userData;
+      const { montoInversion, fechaInversion, idUsuario, idProyecto } = inversionData;
 
       const query = `
-        UPDATE usuario
-        SET nombre = ?, apellido = ?, contrasena = ?, direccion = ?, idComuna = ?, idRegion = ?, idRol = ?, telefono = ?
-        WHERE idUsuario = ?
+        UPDATE inversion
+        SET montoInversion = ?, fechaInversion = ?, idUsuario = ?, idProyecto = ?
+        WHERE idInversion = ?
       `;
 
-      const results = await db.query(query, [nombre, apellido, contrasena, direccion, idComuna, idRegion, idRol, telefono, idUsuario]);
+      const results = await db.query(query, [montoInversion, fechaInversion, idUsuario, idProyecto, idInversion]);
       return results;
     } catch (error) {
-      throw error; 
+      throw error;
     }
   }
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      db.query('DELETE FROM usuario WHERE idUsuario = ?', id, (error, result) => {
+      db.query('DELETE FROM inversion WHERE idInversion = ?', id, (error, result) => {
         if (error) {
           reject(error);
         } else {
-          resolve('Usuario eliminado');
+          resolve('Inversión eliminada');
         }
       });
     });
   }
 }
 
-module.exports = Usuario;
+module.exports = Inversion;

@@ -1,9 +1,9 @@
 const db = require('../../db');
 
-class Usuario {
+class Mensaje {
   static getAll() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM usuario', (error, results) => {
+      db.query('SELECT * FROM mensaje', (error, results) => {
         if (error) {
           reject(error);
         } else {
@@ -13,9 +13,9 @@ class Usuario {
     });
   }
 
-  static create(newUser) {
+  static create(newMensaje) {
     return new Promise((resolve, reject) => {
-      db.query('INSERT INTO usuario SET ?', newUser, (error, result) => {
+      db.query('INSERT INTO mensaje SET ?', newMensaje, (error, result) => {
         if (error) {
           reject(error);
         } else {
@@ -27,13 +27,13 @@ class Usuario {
 
   static getById(id) {
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT * FROM Usuario WHERE idUsuario = ?';
+      const sql = 'SELECT * FROM Mensaje WHERE idMensaje = ?';
       db.query(sql, [id], (error, result) => {
         if (error) {
           reject(error);
         } else {
           if (result.length > 0) {
-            resolve(result[0]); 
+            resolve(result[0]);
           } else {
             resolve(null); 
           }
@@ -42,17 +42,17 @@ class Usuario {
     });
   }
 
-  static async update(idUsuario, userData) {
+  static async update(idMensaje, mensajeData) {
     try {
-      const { nombre, apellido, contrasena, direccion, idComuna, idRegion, idRol, telefono } = userData;
+      const { contenidoMensaje, fechaEnvio, idUsuarioEnvio, idUsuarioRecibe } = mensajeData;
 
       const query = `
-        UPDATE usuario
-        SET nombre = ?, apellido = ?, contrasena = ?, direccion = ?, idComuna = ?, idRegion = ?, idRol = ?, telefono = ?
-        WHERE idUsuario = ?
+        UPDATE mensaje
+        SET contenidoMensaje = ?, fechaEnvio = ?, idUsuarioEnvio = ?, idUsuarioRecibe = ?
+        WHERE idMensaje = ?
       `;
 
-      const results = await db.query(query, [nombre, apellido, contrasena, direccion, idComuna, idRegion, idRol, telefono, idUsuario]);
+      const results = await db.query(query, [contenidoMensaje, fechaEnvio, idUsuarioEnvio, idUsuarioRecibe, idMensaje]);
       return results;
     } catch (error) {
       throw error; 
@@ -61,15 +61,15 @@ class Usuario {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      db.query('DELETE FROM usuario WHERE idUsuario = ?', id, (error, result) => {
+      db.query('DELETE FROM mensaje WHERE idMensaje = ?', id, (error, result) => {
         if (error) {
           reject(error);
         } else {
-          resolve('Usuario eliminado');
+          resolve('Mensaje eliminado');
         }
       });
     });
   }
 }
 
-module.exports = Usuario;
+module.exports = Mensaje;
