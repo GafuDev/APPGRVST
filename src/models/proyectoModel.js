@@ -42,21 +42,49 @@ class Proyecto {
     });
   }
 
-  static async update(idProyecto, proyectoData) {
-    try {
-      const { nombreProyecto, descripcionProyecto, fechaInicio, montoFinanciar, montoAdquirido, resumenProyecto, linkProyecto, logoProyecto, idCategoria, idUsuario } = proyectoData;
-
+  static async update(id, proyectoData) {
+    return new Promise((resolve, reject) => {
+      const {
+        nombreProyecto,
+        descripcionProyecto,
+        fechaInicio,
+        montoFinanciar,
+        montoAdquirido,
+        resumenProyecto,
+        linkProyecto,
+        logoProyecto,
+        idCategoria,
+        idUsuario
+      } = proyectoData;
+  
       const query = `
         UPDATE proyecto
-        SET nombreProyecto = ?, descripcionProyecto = ?, fechaInicio = ?, montoFinanciar = ?, montoAdquirido = ?, resumenProyecto = ?, linkProyecto = ?, logoProyecto = ?, idCategoria = ?, idUsuario = ?
-        WHERE idProyecto = ?
-      `;
-
-      const results = await db.query(query, [nombreProyecto, descripcionProyecto, fechaInicio, montoFinanciar, montoAdquirido, resumenProyecto, linkProyecto, logoProyecto, idCategoria, idUsuario, idProyecto]);
-      return results;
-    } catch (error) {
-      throw error; 
-    }
+        SET nombreProyecto = ?, descripcionProyecto = ?, fechaInicio = ?, montoFinanciar = ?, montoAdquirido = ?, 
+            resumenProyecto = ?, linkProyecto = ?, logoProyecto = ?, idCategoria = ?, idUsuario = ?
+        WHERE idProyecto = ?`;
+  
+      const values = [
+        nombreProyecto,
+        descripcionProyecto,
+        fechaInicio,
+        montoFinanciar,
+        montoAdquirido,
+        resumenProyecto,
+        linkProyecto,
+        logoProyecto,
+        idCategoria,
+        idUsuario,
+        id
+      ];
+  
+      db.query(query, values, (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
   }
 
   static delete(id) {

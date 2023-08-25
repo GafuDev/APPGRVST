@@ -42,21 +42,25 @@ class Usuario {
     });
   }
 
-  static async update(idUsuario, userData) {
-    try {
-      const { nombre, apellido, contrasena, direccion, idComuna, idRegion, idRol, telefono } = userData;
+  static async update(id, userData) {
+    return new Promise((resolve, reject) => {
+      const { nombre, apellido, username, contrasena, correo, direccion, idComuna, idRegion, idRol, telefono } = userData;
 
       const query = `
         UPDATE usuario
-        SET nombre = ?, apellido = ?, contrasena = ?, direccion = ?, idComuna = ?, idRegion = ?, idRol = ?, telefono = ?
-        WHERE idUsuario = ?
-      `;
+        SET nombre = ?, apellido = ?, username = ?, contrasena = ?, correo = ?, direccion = ?, idComuna = ?, idRegion = ?, idRol = ?, telefono = ?
+        WHERE idUsuario = ?`;
 
-      const results = await db.query(query, [nombre, apellido, contrasena, direccion, idComuna, idRegion, idRol, telefono, idUsuario]);
-      return results;
-    } catch (error) {
-      throw error; 
-    }
+      const values = [nombre, apellido, username, contrasena, correo, direccion, idComuna, idRegion, idRol, telefono, id];
+
+      db.query(query, values, (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
   }
 
   static delete(id) {

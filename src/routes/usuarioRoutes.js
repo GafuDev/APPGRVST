@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const usuarioController = require('../controllers/usuarioController');
+const secureMiddleware = require('../middlewares/secure');
 
 router.get('/', usuarioController.listarUsuarios);
 router.get('/:id', usuarioController.obtenerPorID);

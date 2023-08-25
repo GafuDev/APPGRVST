@@ -39,12 +39,16 @@ const mensajeController = {
   },
 
   editarMensaje: async (req, res) => {
-    const idMensaje = req.params.idMensaje; 
+    const idMensaje = req.params.id; 
     const mensajeData = req.body;
-
+  
     try {
       const result = await Mensaje.update(idMensaje, mensajeData);
-      res.status(200).json({ message: 'Mensaje actualizado correctamente' });
+      if (result.affectedRows > 0) {
+        res.status(200).json({ message: 'Mensaje actualizado correctamente' });
+      } else {
+        res.status(200).json({ message: 'Mensaje actualizado correctamente' });
+      }
     } catch (error) {
       console.error(error); 
       res.status(500).json({ message: 'Error al actualizar el mensaje' });

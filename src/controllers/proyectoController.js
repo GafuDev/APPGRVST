@@ -39,14 +39,18 @@ const proyectoController = {
   },
 
   editarProyecto: async (req, res) => {
-    const idProyecto = req.params.idProyecto; 
+    const idProyecto = req.params.id;
     const proyectoData = req.body;
-
+  
     try {
-      const result = await Proyecto.update(idProyecto, proyectoData);
-      res.status(200).json({ message: 'Proyecto actualizado correctamente' });
+      const updatedProyecto = await Proyecto.update(idProyecto, proyectoData);
+      if (updatedProyecto.affectedRows > 0) {
+        res.status(200).json({ message: 'Proyecto actualizado correctamente' });
+      } else {
+        res.status(404).json({ message: 'Proyecto no encontrado o no se realizó ningún cambio' });
+      }
     } catch (error) {
-      console.error(error); 
+      console.error(error);
       res.status(500).json({ message: 'Error al actualizar el proyecto' });
     }
   },

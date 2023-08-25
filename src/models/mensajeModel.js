@@ -44,15 +44,15 @@ class Mensaje {
 
   static async update(idMensaje, mensajeData) {
     try {
-      const { contenidoMensaje, fechaEnvio, idUsuarioEnvio, idUsuarioRecibe } = mensajeData;
-
+      const { contenidoMensaje } = mensajeData;
+  
       const query = `
         UPDATE mensaje
-        SET contenidoMensaje = ?, fechaEnvio = ?, idUsuarioEnvio = ?, idUsuarioRecibe = ?
+        SET contenidoMensaje = ?
         WHERE idMensaje = ?
       `;
-
-      const results = await db.query(query, [contenidoMensaje, fechaEnvio, idUsuarioEnvio, idUsuarioRecibe, idMensaje]);
+  
+      const results = await db.query(query, [contenidoMensaje, idMensaje]);
       return results;
     } catch (error) {
       throw error; 

@@ -44,18 +44,18 @@ class Inversion {
 
   static async update(idInversion, inversionData) {
     try {
-      const { montoInversion, fechaInversion, idUsuario, idProyecto } = inversionData;
-
+      const { montoInversion } = inversionData;
+  
       const query = `
         UPDATE inversion
-        SET montoInversion = ?, fechaInversion = ?, idUsuario = ?, idProyecto = ?
+        SET montoInversion = ?
         WHERE idInversion = ?
       `;
-
-      const results = await db.query(query, [montoInversion, fechaInversion, idUsuario, idProyecto, idInversion]);
+  
+      const results = await db.query(query, [montoInversion, idInversion]);
       return results;
     } catch (error) {
-      throw error;
+      throw error; 
     }
   }
 

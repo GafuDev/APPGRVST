@@ -39,14 +39,18 @@ const inversionController = {
   },
 
   editarInversion: async (req, res) => {
-    const idInversion = req.params.idInversion; 
+    const idInversion = req.params.id; 
     const inversionData = req.body;
-
+  
     try {
       const result = await Inversion.update(idInversion, inversionData);
-      res.status(200).json({ message: 'Inversión actualizada correctamente' });
+      if (result.affectedRows > 0) {
+        res.status(200).json({ message: 'Inversión actualizada correctamente' });
+      } else {
+        res.status(200).json({ message: 'No se realizó ningún cambio en la inversión' });
+      }
     } catch (error) {
-      console.error(error);
+      console.error(error); 
       res.status(500).json({ message: 'Error al actualizar la inversión' });
     }
   },

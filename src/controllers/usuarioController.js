@@ -1,4 +1,7 @@
 const Usuario = require('../models/usuariomodel');
+//const secureMiddleware = require('../middlewares/secure');
+//const { generateHash } = require('../middlewares/secure');
+
 
 const usuarioController = {
   listarUsuarios: async (req, res) => {
@@ -11,12 +14,14 @@ const usuarioController = {
   },
 
   agregarUsuario: async (req, res) => {
-    const newUser = req.body;
     try {
+      const newUser = req.body;
+      //newUser.contrasena = await generateHash(newUser.contrasena);
+
       const insertedId = await Usuario.create(newUser);
       res.json({ message: 'Usuario agregado', id: insertedId });
     } catch (error) {
-      console.error(error); 
+      console.error(error);
       res.status(500).json({ error: 'Error al agregar usuario' });
     }
   },
@@ -39,18 +44,22 @@ const usuarioController = {
   },
 
   editarUsuario: async (req, res) => {
-    const idUsuario = req.params.idUsuario; 
+    const idUsuario = req.params.id;
     const userData = req.body;
-
+  
     try {
-      const result = await Usuario.update(idUsuario, userData);
-      res.status(200).json({ message: 'Usuario actualizado correctamente' });
+      const updatedUser = await Usuario.update(idUsuario, userData);
+      if (updatedUser.affectedRows > 0) {
+        res.status(200).json({ message: 'Usuario actualizado correctamente' });
+      } else {
+        res.status(404).json({ message: 'Usuario no encontrado' });
+      }
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error al actualizar el usuario' });
     }
   },
-  
+    
   eliminarUsuario: async (req, res) => {
     const id = req.params.id;
     try {
