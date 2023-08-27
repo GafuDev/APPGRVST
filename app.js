@@ -16,9 +16,13 @@ const mensajeRoutes = require('./src/routes/mensajeRoutes');
 const proyectoRoutes = require('./src/routes/proyectoRoutes'); 
 const inversionRoutes = require('./src/routes/inversionRoutes');
 
+const upload = require('./src/middlewares/multer');
+
 app.use('/usuario', usuarioRoutes);
 app.use('/mensaje', mensajeRoutes); 
-app.use('/proyecto', proyectoRoutes); 
+//app.use('/proyecto', proyectoRoutes); 
+
+app.use('/proyecto', upload.single('logoProyecto'), proyectoRoutes);
 app.use('/inversion', inversionRoutes); 
 
 

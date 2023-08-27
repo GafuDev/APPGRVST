@@ -13,7 +13,10 @@ class Proyecto {
     });
   }
 
+  //crear con logo
   static create(newProyecto) {
+    newProyecto.logoProyecto = newProyecto.logoProyecto.filename;
+
     return new Promise((resolve, reject) => {
       db.query('INSERT INTO proyecto SET ?', newProyecto, (error, result) => {
         if (error) {
