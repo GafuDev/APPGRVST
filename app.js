@@ -17,6 +17,15 @@ const proyectoRoutes = require('./src/routes/proyectoRoutes');
 const inversionRoutes = require('./src/routes/inversionRoutes');
 
 const upload = require('./src/middlewares/multer');
+//manejo de errores
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({ error: 'Error al subir la imagen.', details: err.message });
+  } else if (err) {
+    return res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+  next();
+});
 
 app.use('/usuario', usuarioRoutes);
 app.use('/mensaje', mensajeRoutes); 
