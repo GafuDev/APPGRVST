@@ -28,7 +28,7 @@ const usuarioController = {
       const contrasenaCorrecta = await verificarContrasena(contrasena, usuarioexiste.contrasena);
       
       if (contrasenaCorrecta) {
-        return res.status(200).json({ status: true, datos: { usuario: usuarioexiste.nombre, username: usuarioexiste.username, rol: usuarioexiste.idRol } });
+        return res.status(200).json({ status: true, datos: { usuario: usuarioexiste.nombre, username: usuarioexiste.username, rol: usuarioexiste.idRol, id: usuarioexiste.idUsuario} });
       }
       
       else {
