@@ -27,5 +27,4 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter
 });
-console.log('Multer upload:', upload);
 module.exports = upload;

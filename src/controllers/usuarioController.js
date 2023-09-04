@@ -15,8 +15,6 @@ const usuarioController = {
   login: async (req, res) => {
 
     const { usuario, contrasena } = req.body[0]
-    console.log('usuario : ', usuario);
-    console.log('contrasena:', contrasena);
     const listarTodoUsuario = await Usuario.getAll();
     const usuarioexiste = listarTodoUsuario.find(ele => ele.username == usuario)
     
@@ -44,14 +42,10 @@ const usuarioController = {
   agregarUsuario: async (req, res) => {
     try {
       const usuarios = req.body;
-      console.log('obj inicial ', usuarios);
-
       for (const usuario of usuarios) {
         const hashedPassword = await generateHash(usuario.contrasena);
         usuario.contrasena = hashedPassword;
       }
-      console.log('obj final ', usuarios);
-
       const insertedId = await Usuario.create(usuarios);
       res.json({ message: 'Usuario agregado', id: insertedId });
     } catch (error) {
