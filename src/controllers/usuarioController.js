@@ -30,12 +30,12 @@ const usuarioController = {
       }
       
       else {
-        return res.status(200).json({ status: false, mensaje: "Usuario o Contraseña Incorrecta" });
+        return res.status(200).json({ status: false, mensaje: "Contraseña Incorrecta" });
       }
 
       
     } else {
-      return res.status(200).json({ status: false, mensaje: "Usuario o Contraseña Incorrecta" });
+      return res.status(200).json({ status: false, mensaje: "Usuario no existe" });
     }
   },
   
