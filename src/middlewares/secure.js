@@ -1,9 +1,11 @@
-const bcrypt = require('bcrypt');
+const simplecrypt = require("simplecrypt");
+var sc = simplecrypt();
+
+
 
 async function generateHash(contrasena) {
-  const saltRounds = 10;
   try {
-    const hash = await bcrypt.hash(contrasena, saltRounds);
+    const hash = await sc.encrypt(contrasena);
     return hash;
   } catch (error) {
     throw error;
@@ -28,7 +30,8 @@ const secureMiddleware = {
 
 async function verificarContrasena(contrasenaIngresada, contrasenaAlmacenada) {
   try {
-    return await bcrypt.compare(contrasenaIngresada, contrasenaAlmacenada);
+    const decript = await sc.decrypt(contrasenaAlmacenada);
+    return decript === contrasenaIngresada ? true : false;
   } catch (error) {
     console.error("Error al verificar la contraseña:", error);
     return false;
