@@ -1,4 +1,5 @@
 const Usuario = require('../models/usuariomodel');
+
 const { generateHash, verificarContrasena } = require('../middlewares/secure');
 
 
@@ -16,15 +17,22 @@ const usuarioController = {
 
     const { usuario, contrasena } = req.body[0]
     const listarTodoUsuario = await Usuario.getAll();
+
     const usuarioexiste = listarTodoUsuario.find(ele => ele.username == usuario)
-    
+
+   //const pass = sc.encrypt("Admin123")
+
+
     if (!usuario || !contrasena) {
       return res.status(200).json({ status: false, mensaje: "Usuario o Contraseña Incorrecta" });
     }
     
     if (usuarioexiste) {
+
       const contrasenaCorrecta = await verificarContrasena(contrasena, usuarioexiste.contrasena);
       
+      //console.log(contrasenaCorrecta);
+
       if (contrasenaCorrecta) {
         return res.status(200).json({ status: true, datos: { usuario: usuarioexiste.nombre, username: usuarioexiste.username, rol: usuarioexiste.idRol, id: usuarioexiste.idUsuario} });
       }
