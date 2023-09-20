@@ -70,6 +70,18 @@ class Inversion {
       });
     });
   }
+
+  static getTotalInversionesPorProyecto(idProyecto) {
+    return new Promise((resolve, reject) => {
+      db.query('SELECT SUM(montoInversion) AS totalInversiones FROM inversion WHERE idProyecto = ?', idProyecto, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result[0].totalInversiones || 0);
+        }
+      });
+    });
+  }
 }
 
 module.exports = Inversion;

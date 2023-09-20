@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 
 async function generateHash(contrasena) {
-  const saltRounds = bcrypt.genSaltSync(10);
+  const saltRounds = bcrypt.genSaltSync(5);
   try {
     const hash = await bcrypt.hashSync(contrasena, saltRounds);
     return hash;

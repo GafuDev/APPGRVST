@@ -1,5 +1,5 @@
 const Proyecto = require('../models/proyectoModel');
-const multer = require('multer');
+//const multer = require('multer');
 
 
 const proyectoController = {
@@ -12,31 +12,11 @@ const proyectoController = {
     }
   },
 
-  /*agregarProyecto: async (req, res) => {
-    const newProyecto = req.body;
-    try {
-      const insertedId = await Proyecto.create(newProyecto);
-      res.json({ message: 'Proyecto agregado', id: insertedId });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error al agregar proyecto' });
-    }
-  },*/
-
-  //agregarProyecto con multer
   agregarProyecto: async (req, res) => {
     const newProyecto = req.body;
-
-    if (!req.file) {
-      return res.status(400).json({ error: 'No se ha subido ninguna imagen.' });
-    }
-
-    newProyecto.logoProyecto = req.file.filename;
-    
     try {
       const insertedId = await Proyecto.create(newProyecto);
       res.json({ message: 'Proyecto agregado', id: insertedId });
-      //console.log(newProyecto.logoProyecto);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error al agregar proyecto' });

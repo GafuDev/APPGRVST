@@ -14,10 +14,10 @@ const inversionController = {
     const newInversion = req.body;
     try {
       const insertedId = await Inversion.create(newInversion);
-      res.json({ message: 'Inversión agregada', id: insertedId });
+      res.json({ message: 'Inversión generada', id: insertedId });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Error al agregar inversión' });
+      res.status(500).json({ error: 'Error al generar la inversión' });
     }
   },
 
@@ -34,7 +34,7 @@ const inversionController = {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Error al obtener inversión por ID' });
+      res.status(500).json({ error: 'Error al obtener la inversión solicitada' });
     }
   },
 
@@ -64,6 +64,19 @@ const inversionController = {
       res.status(500).json({ error: 'Error al eliminar inversión' });
     }
   },
+
+  obtenerTotalInversionesPorProyecto: async (req, res) => {
+    const idProyecto = req.params.id;
+
+    try {
+      const totalInversiones = await Inversion.getTotalInversionesPorProyecto(idProyecto);
+      res.json({ totalInversiones });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al obtener el total de inversiones por proyecto' });
+    }
+  },
+
 };
 
 module.exports = inversionController;

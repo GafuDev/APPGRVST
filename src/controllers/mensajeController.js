@@ -12,12 +12,14 @@ const mensajeController = {
 
   agregarMensaje: async (req, res) => {
     const newMensaje = req.body;
+    console.log(req.body);
     try {
       const insertedId = await Mensaje.create(newMensaje);
-      res.json({ message: 'Mensaje agregado', id: insertedId });
+      res.json({ message: 'Mensaje enviado ', id: insertedId });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error al agregar mensaje' });
+      
+      res.status(500).json({ error: 'Error al enviar mensaje' });
+      console.log(error.message);
     }
   },
 

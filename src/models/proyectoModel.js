@@ -13,12 +13,38 @@ class Proyecto {
     });
   }
 
-  //crear con logo
+  //CREAR SIN LOGO
   static create(newProyecto) {
-    newProyecto.logoProyecto = newProyecto.logoProyecto.filename;
-
     return new Promise((resolve, reject) => {
-      db.query('INSERT INTO proyecto SET ?', newProyecto, (error, result) => {
+      const {
+        nombreProyecto,
+        descripcionProyecto,
+        fechaInicio,
+        montoFinanciar,
+        montoAdquirido,
+        resumenProyecto,
+        linkProyecto,
+        idCategoria,
+        idUsuario,
+        createAt,
+        updateAt
+      } = newProyecto;
+  
+      const proyectoData = {
+        nombreProyecto,
+        descripcionProyecto,
+        fechaInicio,
+        montoFinanciar,
+        montoAdquirido,
+        resumenProyecto,
+        linkProyecto,
+        idCategoria,
+        idUsuario,
+        createAt,
+        updateAt
+      };
+  
+      db.query('INSERT INTO proyecto SET ?', proyectoData, (error, result) => {
         if (error) {
           reject(error);
         } else {
@@ -27,7 +53,7 @@ class Proyecto {
       });
     });
   }
-
+  
   static getById(id) {
     return new Promise((resolve, reject) => {
       const sql = 'SELECT * FROM proyecto WHERE idProyecto = ?';
